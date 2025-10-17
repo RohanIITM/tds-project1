@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING, Annotated
 
 import httpx
 from fastapi import BackgroundTasks, FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from github import Github
 from pydantic import BaseModel, Field
 from pydantic_ai import Agent, RunContext
@@ -270,6 +271,18 @@ async def manage_and_deploy_repo(
 # FastAPI endpoint
 # ------------------------------------------------------------
 app = FastAPI()
+
+origins = [
+    "*",  # allow all origins, or replace with specific domains
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],  # GET, POST, PUT, DELETE etc.
+    allow_headers=["*"],  # allow custom headers
+)
 
 
 @app.post("/task")
