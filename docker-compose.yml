@@ -1,0 +1,13 @@
+services:
+  api:
+    container_name: api
+    ports:
+    - "8000:8000"
+    build: .
+    env_file: .env
+    command: >
+      sh -c "
+      echo 'Starting API servers...'
+      && uvicorn --host 0.0.0.0 --port 8000 app:app --reload
+      "
+    restart: "always"
